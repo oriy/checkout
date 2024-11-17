@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout
@@ -18,8 +19,6 @@ jobs:
           git config --global user.email 2827449+oriy@users.noreply.github.com
         
       - name: Push dummy PR
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           prBranch=oriy/testRefMerge
           git branch -d "${prBranch}" 2>/dev/null || true
@@ -32,6 +31,23 @@ jobs:
           echo "PR_NUMBER=$(gh pr view --repo $GITHUB_REPOSITORY "${prBranch}" --json number --jq ".number")" >> $GITHUB_ENV
 
       - name: Checkout PR merge
+        uses: actions/checkout@v4.2.2
+        with:
+          ref: refs/pull/${{ env.PR_NUMBER }}/merge
+          clean: true
+      
+      - name: Close and reopen PR
+        run: |
+          gh pr close --repo $GITHUB_REPOSITORY "${prBranch}"
+          echo "wait few seconds"
+          for i in {1..5}; do
+              sleep 1
+              printf "."
+          done
+          echo
+          gh pr reopen --repo $GITHUB_REPOSITORY "${prBranch}"
+          
+      - name: Checkout PR merge once again after PR reopen
         uses: actions/checkout@v4.2.2
         with:
           ref: refs/pull/${{ env.PR_NUMBER }}/merge
