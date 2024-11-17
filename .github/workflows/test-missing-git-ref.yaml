@@ -28,5 +28,11 @@ jobs:
           git commit -am 'test ref merge'
           git push --set-upstream --force origin HEAD:"${prBranch}"
           git remote -v
-          gh pr create --title "test missing git ref" --body ""
-          
+          gh pr create --title "test missing git ref" --body "" || echo "pr might have been already open"
+          echo "PR_NUMBER=$(gh pr view --repo $GITHUB_REPOSITORY "${prBranch}" --json number --jq ".number")" >> GITHUB_ENV
+
+      - name: Checkout PR merge
+        uses: actions/checkout@v4.2.2
+        with:
+          ref: refs/pull/${ env.PR_NUMBER }/merge
+          clean: true
