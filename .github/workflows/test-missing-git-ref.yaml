@@ -15,7 +15,7 @@ jobs:
       - name: Git config
         run: |  
           git config --global user.name oriy
-          git config --global user.email oriy@github.com
+          git config --global user.email 2827449+oriy@users.noreply.github.com
         
       - name: Push dummy PR
         env:
