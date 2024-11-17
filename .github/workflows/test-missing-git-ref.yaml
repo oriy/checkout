@@ -38,6 +38,7 @@ jobs:
       
       - name: Close and reopen PR
         run: |
+          git checkout "${prBranch}"
           gh pr close --repo $GITHUB_REPOSITORY "${prBranch}"
           echo "wait few seconds"
           for i in {1..5}; do
