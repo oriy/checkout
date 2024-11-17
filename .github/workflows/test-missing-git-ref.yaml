@@ -27,5 +27,6 @@ jobs:
           touch dummy && git add dummy
           git commit -am 'test ref merge'
           git push --set-upstream --force origin HEAD:"${prBranch}"
+          git remote -v
           gh pr create --fill --dry-run
           
