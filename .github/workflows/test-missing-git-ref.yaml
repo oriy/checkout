@@ -26,6 +26,6 @@ jobs:
           git checkout -b "${prBranch}"
           touch dummy && git add dummy
           git commit -am 'test ref merge'
-          git push --upstream --force origin "${prBranch}"
+          git push --set-upstream --force origin "${prBranch}"
           gh pr create --fill --repo $GITHUB_REPOSITORY
           
