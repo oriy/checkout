@@ -34,5 +34,5 @@ jobs:
       - name: Checkout PR merge
         uses: actions/checkout@v4.2.2
         with:
-          ref: refs/pull/${ env.PR_NUMBER }/merge
+          ref: refs/pull/${{ env.PR_NUMBER }}/merge
           clean: true
