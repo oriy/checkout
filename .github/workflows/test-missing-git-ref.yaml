@@ -27,5 +27,5 @@ jobs:
           touch dummy && git add dummy
           git commit -am 'test ref merge'
           git push --set-upstream --force origin HEAD:"${prBranch}"
-          gh pr create --fill --repo $GITHUB_REPOSITORY
+          gh pr create
           
